@@ -1,36 +1,47 @@
-##  ⏳ TIME TRAVELER'S VAULT ⌛️
+ ### Time Traveler's Vault - Phase 2
 
-Welcome to Time Traveler's Vault, in interactive Python adventure where borrowing items from different eras comes with serious consequenses!
+A persistent command-line borrowing system **SQLite**, built in Python. This project simulates a time traveler's vault where users borrow historical
+and futuristic artifacts.
 
----
-
-## GAME CONCEPT 🎮
-
-In a world where time travel is real, explorers borrow powerful artifacts from ancient civilizations and future societies.
-But with Great Power comes Great Temporal instability:
-
-- Borrowing too long may trigger ** Time disruptions**
-- Mixing items from clashing timelines can cause ** conflicts **
-- Your decision shape how the vault evolves...
-
----
-
-## 🎯 PHASE 1. Core Borrowing System
-
-This phase focuses on the core borrowing logic using Python.
-
-### ✅ FEATURES
-
-- 📦 Borrow and return items with in-game consequences
-- 🧍🏼Tracks users and their borrowed items
-- 🧠 Uses classes: 'User', 'Item', and 'GameManager' 
-- 📊 In-memory data structures ('dict', 'list')
-- ⚠️ Prevents borrowing unavailable items
+### 💥 New in Phase 2:
+- ✅ **SQLite database integration**
+- ✅ Data persistence: items, users, borrowing records
+- ✅ Turn tracking to simulate time and enforce overdue logic
+- ✅ Improved logic to prevent double-borrowing
 
 
----
-## 💻 TECHNOLOGIES USED
+## 📊 Database Schema
 
-- Python
-- Jupiter Notebook
-- Object-Oriented Programming
+### 'users'
+
+| Column      | Type       | Details         |
+--------------|------------|-----------------|
+| user_id     | INTEGER    | Primary Key     |
+| name        | TEXT       | Not null        |
+
+### 'items'
+
+| Column      | Type       | Details         |
+--------------|------------|-----------------|
+| item_id     | INTEGER    | Primary Key     |
+| name        | TEXT       | Not null        |
+| origin_era  | TEXT       | Not null        |
+| max_duration| INTEGER    | Duration limit  |
+| is_borrowed | INTEGER    | Default 0(false)|
+
+### 'borrowed_items'
+
+| Column            |    Type        |     Details                            |
+|-------------------|----------------|----------------------------------------|
+| user_id           | INTEGER        | Foreign key -> 'users (user_id)'       |
+| items_id          | INTEGER        | Foreign key -> 'items (item_id)'       |
+| turns_borrowed    | INTEGER        | Tracks how long item has been borrowed |
+
+
+##  🛠️ How it Works
+
+1. Add user(s) and item(s)
+2. Borrow items
+3. Return them before they're overdue!
+4. Advance time with 'next_turn()' - if 'turns_borrowed > max_duration', triggers a **TIME DISPUPTION**
+
